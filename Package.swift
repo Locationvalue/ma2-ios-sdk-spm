@@ -1,0 +1,692 @@
+// swift-tools-version: 6.0
+import PackageDescription
+
+// MARK: - リリース情報
+//
+// SDK 本体の xcframework は、このリポジトリの GitHub Releases のアセットとして
+// 「1 モジュール = 1 zip」で配布する。リポジトリ本体に xcframework をコミットしない
+// （SwiftPM は依存解決時にリポジトリを全履歴 clone するため）。
+//
+// `sdkVersion` と各 binaryTarget の `checksum` は、SDK 側のリリースワークフローで自動更新される。
+
+let sdkVersion = "0.0.0"
+
+func xcframeworkURL(_ module: String) -> String {
+    "https://github.com/Locationvalue/ma2-ios-sdk-spm/releases/download/\(sdkVersion)/\(module).xcframework.zip"
+}
+
+let package = Package(
+    name: "ma2-ios-sdk-spm",
+    platforms: [
+        .iOS(.v16),
+        // SDK 自体は iOS 専用だが、macOS 向けツール（LicensePlist 等）を同一パッケージ
+        // グラフに含めるアプリ側の都合で、プラットフォーム宣言を残している。
+        .macOS(.v10_15)
+    ],
+    products: [
+        .library(name: "NautilusHierarchicalMenuSDK", targets: ["_NautilusHierarchicalMenuSDKBridge"]),
+        .library(name: "NautilusAnalyticsAmplitudePluginSDK", targets: ["NautilusAnalyticsAmplitudePluginSDK"]),
+        .library(name: "NautilusAnalyticsSDK", targets: ["_NautilusAnalyticsSDKBridge"]),
+        .library(name: "NautilusBannerSDK", targets: ["_NautilusBannerSDKBridge"]),
+        .library(name: "NautilusCampaignSDK", targets: ["_NautilusCampaignSDKBridge"]),
+        .library(name: "NautilusCheckInSDK", targets: ["_NautilusCheckInSDKBridge"]),
+        .library(name: "NautilusCodeImageProvidersSDK", targets: ["_NautilusCodeImageProvidersSDKBridge"]),
+        .library(name: "NautilusCodeReaderSDK", targets: ["_NautilusCodeReaderSDKBridge"]),
+        .library(name: "NautilusCollectionCardSDK", targets: ["_NautilusCollectionCardSDKBridge"]),
+        .library(name: "NautilusConfigSDK", targets: ["_NautilusConfigSDKBridge"]),
+        .library(name: "NautilusContainerSDK", targets: ["_NautilusContainerSDK"]),
+        .library(name: "NautilusContentSDK", targets: ["_NautilusContentSDKBridge"]),
+        .library(name: "NautilusCoreSDK", targets: ["_NautilusCoreSDKBridge"]),
+        .library(name: "NautilusCouponSDK", targets: ["_NautilusCouponSDKBridge"]),
+        .library(name: "NautilusGeoUtilSDK", targets: ["_NautilusGeoUtilSDKBridge"]),
+        .library(name: "NautilusIdentifySDK", targets: ["_NautilusIdentifySDKBridge"]),
+        .library(name: "NautilusImagingSDK", targets: ["_NautilusImagingSDK"]),
+        .library(name: "NautilusInAppMessageSDK", targets: ["_NautilusInAppMessageSDKBridge"]),
+        .library(name: "NautilusIntroSDK", targets: ["_NautilusIntroSDKBridge"]),
+        .library(name: "NautilusLoggingSDK", targets: ["_NautilusLoggingSDK"]),
+        .library(name: "NautilusLotterySDK", targets: ["_NautilusLotterySDKBridge"]),
+        .library(name: "NautilusLotteryUISDK", targets: ["_NautilusLotteryUISDKBridge"]),
+        .library(name: "NautilusMaintenanceSDK", targets: ["_NautilusMaintenanceSDKBridge"]),
+        .library(name: "NautilusNotificationSDK", targets: ["_NautilusNotificationSDKBridge"]),
+        .library(name: "NautilusNotificationServiceSDK", targets: ["_NautilusNotificationServiceSDK"]),
+        .library(name: "NautilusNotificationUISDK", targets: ["_NautilusNotificationUISDKBridge"]),
+        .library(name: "NautilusPointSDK", targets: ["_NautilusPointSDKBridge"]),
+        .library(name: "NautilusServerTimeSDK", targets: ["_NautilusServerTimeSDKBridge"]),
+        .library(name: "NautilusShopSDK", targets: ["_NautilusShopSDKBridge"]),
+        .library(name: "NautilusStampRallyUISDK", targets: ["_NautilusStampRallyUISDKBridge"]),
+        .library(name: "NautilusStampSDK", targets: ["_NautilusStampSDKBridge"]),
+        .library(name: "NautilusStampUISDK", targets: ["_NautilusStampUISDKBridge"]),
+        .library(name: "NautilusUISDK", targets: ["_NautilusUISDKBridge"]),
+        .library(name: "NautilusUserInfoSDK", targets: ["_NautilusUserInfoSDKBridge"])
+    ],
+    dependencies: [
+        // ZXingObjc
+        .package(url: "https://github.com/Locationvalue/ZXingObjC-Binaries.git", .upToNextMinor(from: "1.1.0")),
+        // Amplitude
+        .package(url: "https://github.com/amplitude/Amplitude-Swift", .upToNextMinor(from: "1.14.0")),
+        .package(url: "https://github.com/amplitude/AmplitudeSessionReplay-iOS", .upToNextMinor(from: "0.5.2")),
+        // Lottie
+        .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMinor(from: "4.6.0")),
+    ],
+    targets: [
+        // MARK: - HierarchicalMenu
+        // 依存: Config, Container, Core, Identify, Logging
+        .binaryTarget(
+            name: "_NautilusHierarchicalMenuSDK",
+            url: xcframeworkURL("NautilusHierarchicalMenuSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusHierarchicalMenuSDKBridge",
+            dependencies: [
+                "_NautilusHierarchicalMenuSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusCoreSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - AnalyticsAmplitudePlugin
+        // 依存: Logging, Analytics (+ Amplitude 本体)
+        // xcframework ではなくソース配布。テンプレートアプリ側への移設を検討中。
+        .target(
+            name: "NautilusAnalyticsAmplitudePluginSDK",
+            dependencies: [
+                .product(name: "AmplitudeSwift", package: "Amplitude-Swift"),
+                .product(name: "AmplitudeSessionReplay", package: "AmplitudeSessionReplay-iOS"),
+                .product(name: "AmplitudeSwiftSessionReplayPlugin", package: "AmplitudeSessionReplay-iOS"),
+                "_NautilusLoggingSDK",
+                "_NautilusAnalyticsSDK",
+            ],
+            resources: [
+                .process("PrivacyInfo.xcprivacy")
+            ]
+        ),
+
+        // MARK: - Analytics
+        // 依存: Core, Container, Identify, Logging
+        .binaryTarget(
+            name: "_NautilusAnalyticsSDK",
+            url: xcframeworkURL("NautilusAnalyticsSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusAnalyticsSDKBridge",
+            dependencies: [
+                "_NautilusAnalyticsSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Banner
+        // 依存: Core, Config, Container, Identify, Imaging, Analytics, Logging, UI
+        .binaryTarget(
+            name: "_NautilusBannerSDK",
+            url: xcframeworkURL("NautilusBannerSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusBannerSDKBridge",
+            dependencies: [
+                "_NautilusBannerSDK",
+                "_NautilusCoreSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusImagingSDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusUISDK",
+            ]
+        ),
+
+        // MARK: - Campaign
+        // 依存: Core, Container, Logging, Config, Identify
+        .binaryTarget(
+            name: "_NautilusCampaignSDK",
+            url: xcframeworkURL("NautilusCampaignSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCampaignSDKBridge",
+            dependencies: [
+                "_NautilusCampaignSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+            ]
+        ),
+
+        // MARK: - CheckIn
+        // 依存: Core, Container, Logging, Config, Identify
+        .binaryTarget(
+            name: "_NautilusCheckInSDK",
+            url: xcframeworkURL("NautilusCheckInSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCheckInSDKBridge",
+            dependencies: [
+                "_NautilusCheckInSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+            ]
+        ),
+
+        // MARK: - CodeImageProviders
+        // 依存: Identify (+ ZXingObjC)
+        .binaryTarget(
+            name: "_NautilusCodeImageProvidersSDK",
+            url: xcframeworkURL("NautilusCodeImageProvidersSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCodeImageProvidersSDKBridge",
+            dependencies: [
+                "_NautilusCodeImageProvidersSDK",
+                "_NautilusIdentifySDK",
+                .product(name: "ZXingObjC-Binaries", package: "ZXingObjC-Binaries")
+            ]
+        ),
+
+        // MARK: - CodeReader
+        // 依存: Core
+        .binaryTarget(
+            name: "_NautilusCodeReaderSDK",
+            url: xcframeworkURL("NautilusCodeReaderSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCodeReaderSDKBridge",
+            dependencies: [
+                "_NautilusCodeReaderSDK",
+                "_NautilusCoreSDK",
+            ]
+        ),
+
+        // MARK: - CollectionCard
+        // 依存: Core, Container, Logging, Config, Identify
+        .binaryTarget(
+            name: "_NautilusCollectionCardSDK",
+            url: xcframeworkURL("NautilusCollectionCardSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCollectionCardSDKBridge",
+            dependencies: [
+                "_NautilusCollectionCardSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+            ]
+        ),
+
+        // MARK: - Config
+        // 依存: Core, Container, Logging
+        .binaryTarget(
+            name: "_NautilusConfigSDK",
+            url: xcframeworkURL("NautilusConfigSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusConfigSDKBridge",
+            dependencies: [
+                "_NautilusConfigSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Container (リーフ、依存なし)
+        .binaryTarget(
+            name: "_NautilusContainerSDK",
+            url: xcframeworkURL("NautilusContainerSDK"),
+            checksum: ""
+        ),
+
+        // MARK: - Content
+        // 依存: Core, Container, Config, Identify, Imaging, Analytics, Logging, UI
+        .binaryTarget(
+            name: "_NautilusContentSDK",
+            url: xcframeworkURL("NautilusContentSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusContentSDKBridge",
+            dependencies: [
+                "_NautilusContentSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusImagingSDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusUISDK",
+            ]
+        ),
+
+        // MARK: - Core
+        // 依存: Container, Logging
+        .binaryTarget(
+            name: "_NautilusCoreSDK",
+            url: xcframeworkURL("NautilusCoreSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCoreSDKBridge",
+            dependencies: [
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Coupon
+        // 依存: Core, Container, Config, Identify, Imaging, Analytics, Logging, UI, ServerTime
+        .binaryTarget(
+            name: "_NautilusCouponSDK",
+            url: xcframeworkURL("NautilusCouponSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusCouponSDKBridge",
+            dependencies: [
+                "_NautilusCouponSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusImagingSDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusUISDK",
+                "_NautilusServerTimeSDK",
+            ]
+        ),
+
+        // MARK: - GeoUtil
+        // 依存: Core, Container, Config, Identify, Logging
+        .binaryTarget(
+            name: "_NautilusGeoUtilSDK",
+            url: xcframeworkURL("NautilusGeoUtilSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusGeoUtilSDKBridge",
+            dependencies: [
+                "_NautilusGeoUtilSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Identify
+        // 依存: Core, Container, Config, Logging
+        .binaryTarget(
+            name: "_NautilusIdentifySDK",
+            url: xcframeworkURL("NautilusIdentifySDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusIdentifySDKBridge",
+            dependencies: [
+                "_NautilusIdentifySDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Imaging (リーフ、依存なし)
+        .binaryTarget(
+            name: "_NautilusImagingSDK",
+            url: xcframeworkURL("NautilusImagingSDK"),
+            checksum: ""
+        ),
+
+        // MARK: - InAppMessage
+        // 依存: Core, Container, Config, Identify, Analytics, Imaging, Logging, UI
+        .binaryTarget(
+            name: "_NautilusInAppMessageSDK",
+            url: xcframeworkURL("NautilusInAppMessageSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusInAppMessageSDKBridge",
+            dependencies: [
+                "_NautilusInAppMessageSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusImagingSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusUISDK",
+            ]
+        ),
+
+        // MARK: - Intro
+        // 依存: Core, Config, Container, Identify, Analytics, Logging, UI
+        .binaryTarget(
+            name: "_NautilusIntroSDK",
+            url: xcframeworkURL("NautilusIntroSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusIntroSDKBridge",
+            dependencies: [
+                "_NautilusIntroSDK",
+                "_NautilusCoreSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusUISDK",
+            ]
+        ),
+
+        // MARK: - Logging (リーフ、依存なし)
+        .binaryTarget(
+            name: "_NautilusLoggingSDK",
+            url: xcframeworkURL("NautilusLoggingSDK"),
+            checksum: ""
+        ),
+
+        // MARK: - Lottery
+        // 依存: Core, Container, Config, Identify, Logging, Imaging, Analytics
+        .binaryTarget(
+            name: "_NautilusLotterySDK",
+            url: xcframeworkURL("NautilusLotterySDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusLotterySDKBridge",
+            dependencies: [
+                "_NautilusLotterySDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+                "_NautilusImagingSDK",
+                "_NautilusAnalyticsSDK",
+            ]
+        ),
+
+        // MARK: - LotteryUI
+        // 依存: Core, Container, Config, Identify, Logging, Imaging, Analytics, UI, Lottery, ServerTime (+ Lottie)
+        .binaryTarget(
+            name: "_NautilusLotteryUISDK",
+            url: xcframeworkURL("NautilusLotteryUISDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusLotteryUISDKBridge",
+            dependencies: [
+                "_NautilusLotteryUISDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+                "_NautilusImagingSDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusUISDK",
+                "_NautilusLotterySDK",
+                "_NautilusServerTimeSDK",
+                .product(name: "Lottie", package: "lottie-spm")
+            ]
+        ),
+
+        // MARK: - Maintenance
+        // 依存: Core, Container, Logging, Config
+        .binaryTarget(
+            name: "_NautilusMaintenanceSDK",
+            url: xcframeworkURL("NautilusMaintenanceSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusMaintenanceSDKBridge",
+            dependencies: [
+                "_NautilusMaintenanceSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusConfigSDK",
+            ]
+        ),
+
+        // MARK: - Notification
+        // 依存: Core, Container, Config, Identify, Logging
+        .binaryTarget(
+            name: "_NautilusNotificationSDK",
+            url: xcframeworkURL("NautilusNotificationSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusNotificationSDKBridge",
+            dependencies: [
+                "_NautilusNotificationSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - NotificationService (リーフ、依存なし)
+        .binaryTarget(
+            name: "_NautilusNotificationServiceSDK",
+            url: xcframeworkURL("NautilusNotificationServiceSDK"),
+            checksum: ""
+        ),
+
+        // MARK: - NotificationUI
+        // 依存: Core, Container, Config, Identify, Analytics, Notification, Imaging, UI, Logging
+        .binaryTarget(
+            name: "_NautilusNotificationUISDK",
+            url: xcframeworkURL("NautilusNotificationUISDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusNotificationUISDKBridge",
+            dependencies: [
+                "_NautilusNotificationUISDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusNotificationSDK",
+                "_NautilusImagingSDK",
+                "_NautilusUISDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Point
+        // 依存: Core, Container, Logging, Config, Identify
+        .binaryTarget(
+            name: "_NautilusPointSDK",
+            url: xcframeworkURL("NautilusPointSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusPointSDKBridge",
+            dependencies: [
+                "_NautilusPointSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusConfigSDK",
+                "_NautilusIdentifySDK",
+            ]
+        ),
+
+        // MARK: - ServerTime
+        // 依存: Core, Container, Config, Logging
+        .binaryTarget(
+            name: "_NautilusServerTimeSDK",
+            url: xcframeworkURL("NautilusServerTimeSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusServerTimeSDKBridge",
+            dependencies: [
+                "_NautilusServerTimeSDK",
+                "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusConfigSDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - Shop
+        // 依存: Core, Config, Container, Identify, Imaging, Analytics, Logging, UI, GeoUtil
+        .binaryTarget(
+            name: "_NautilusShopSDK",
+            url: xcframeworkURL("NautilusShopSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusShopSDKBridge",
+            dependencies: [
+                "_NautilusShopSDK",
+                "_NautilusCoreSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusImagingSDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusUISDK",
+                "_NautilusGeoUtilSDK",
+            ]
+        ),
+
+        // MARK: - StampRallyUI
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging
+        .binaryTarget(
+            name: "_NautilusStampRallyUISDK",
+            url: xcframeworkURL("NautilusStampRallyUISDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusStampRallyUISDKBridge",
+            dependencies: [
+                "_NautilusStampRallyUISDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusCoreSDK",
+                "_NautilusStampSDK",
+                "_NautilusCodeReaderSDK",
+                "_NautilusUISDK",
+                "_NautilusServerTimeSDK",
+                "_NautilusImagingSDK",
+            ]
+        ),
+
+        // MARK: - Stamp
+        // 依存: Config, Container, Core, Identify, Logging
+        .binaryTarget(
+            name: "_NautilusStampSDK",
+            url: xcframeworkURL("NautilusStampSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusStampSDKBridge",
+            dependencies: [
+                "_NautilusStampSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusCoreSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - StampUI
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging
+        .binaryTarget(
+            name: "_NautilusStampUISDK",
+            url: xcframeworkURL("NautilusStampUISDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusStampUISDKBridge",
+            dependencies: [
+                "_NautilusStampUISDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusCoreSDK",
+                "_NautilusStampSDK",
+                "_NautilusCodeReaderSDK",
+                "_NautilusUISDK",
+                "_NautilusServerTimeSDK",
+                "_NautilusImagingSDK",
+            ]
+        ),
+
+        // MARK: - UI
+        // 依存: Core, Config, Analytics, Logging
+        .binaryTarget(
+            name: "_NautilusUISDK",
+            url: xcframeworkURL("NautilusUISDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusUISDKBridge",
+            dependencies: [
+                "_NautilusUISDK",
+                "_NautilusCoreSDK",
+                "_NautilusConfigSDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+            ]
+        ),
+
+        // MARK: - UserInfo
+        // 依存: Core, Config, Container, Identify, Analytics, Logging, GeoUtil
+        .binaryTarget(
+            name: "_NautilusUserInfoSDK",
+            url: xcframeworkURL("NautilusUserInfoSDK"),
+            checksum: ""
+        ),
+        .target(
+            name: "_NautilusUserInfoSDKBridge",
+            dependencies: [
+                "_NautilusUserInfoSDK",
+                "_NautilusCoreSDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusAnalyticsSDK",
+                "_NautilusLoggingSDK",
+                "_NautilusGeoUtilSDK",
+            ]
+        ),
+    ]
+)
