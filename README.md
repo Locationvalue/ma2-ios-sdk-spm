@@ -1,6 +1,6 @@
 # ma2-ios-sdk-spm
 
-ModuleApps 2.0（MA 2.0）の iOS 向けライブラリを、Swift Package Manager (SPM) で配布するためのリポジトリです。
+ModuleApps 2.0（MA 2.0）の iOS 向けライブラリを配布するためのリポジトリです。
 
 SDK 本体は XCFramework（バイナリ）として [Releases](https://github.com/Locationvalue/ma2-ios-sdk-spm/releases) のアセットで配布しています。
 
