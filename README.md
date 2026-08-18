@@ -2,8 +2,6 @@
 
 ModuleApps 2.0（MA 2.0）の iOS 向けライブラリを配布するためのリポジトリです。
 
-SDK 本体は XCFramework（バイナリ）として [Releases](https://github.com/Locationvalue/ma2-ios-sdk-spm/releases) のアセットで配布しています。
-
 ## ⚠️ ModuleApps 導入プロジェクト向けのリポジトリです
 
 **本リポジトリは、株式会社ディアワン（DearOne, inc.）が提供する ModuleApps 2.0 の導入プロジェクトでの利用を目的としています。**
@@ -27,10 +25,6 @@ SDK 本体は XCFramework（バイナリ）として [Releases](https://github.c
 本 SDK の各 XCFramework には `PrivacyInfo.xcprivacy` を同梱しています。
 
 ただし `ZXingObjC-Binaries` には同梱されていません。App Store 申請時に Required Reason API に関する警告が出た場合は、アプリ本体のプライバシーマニフェストで宣言してください。
-
-## CocoaPods をご利用の場合
-
-CocoaPods 版は [ma2-ios-sdk](https://github.com/Locationvalue/ma2-ios-sdk) および [ma2-ios-sdk-repo](https://github.com/Locationvalue/ma2-ios-sdk-repo) で配布しています。
 
 ## ライセンス
 
