@@ -25,7 +25,6 @@ let package = Package(
     ],
     products: [
         .library(name: "NautilusHierarchicalMenuSDK", targets: ["_NautilusHierarchicalMenuSDKBridge"]),
-        .library(name: "NautilusAnalyticsAmplitudePluginSDK", targets: ["NautilusAnalyticsAmplitudePluginSDK"]),
         .library(name: "NautilusAnalyticsSDK", targets: ["_NautilusAnalyticsSDKBridge"]),
         .library(name: "NautilusBannerSDK", targets: ["_NautilusBannerSDKBridge"]),
         .library(name: "NautilusCampaignSDK", targets: ["_NautilusCampaignSDKBridge"]),
@@ -62,9 +61,6 @@ let package = Package(
     dependencies: [
         // ZXingObjc
         .package(url: "https://github.com/Locationvalue/ZXingObjC-Binaries.git", .upToNextMinor(from: "1.1.0")),
-        // Amplitude
-        .package(url: "https://github.com/amplitude/Amplitude-Swift", .upToNextMinor(from: "1.14.0")),
-        .package(url: "https://github.com/amplitude/AmplitudeSessionReplay-iOS", .upToNextMinor(from: "0.5.2")),
         // Lottie
         .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMinor(from: "4.6.0")),
     ],
@@ -85,23 +81,6 @@ let package = Package(
                 "_NautilusCoreSDK",
                 "_NautilusIdentifySDK",
                 "_NautilusLoggingSDK",
-            ]
-        ),
-
-        // MARK: - AnalyticsAmplitudePlugin
-        // 依存: Logging, Analytics (+ Amplitude 本体)
-        // xcframework ではなくソース配布。テンプレートアプリ側への移設を検討中。
-        .target(
-            name: "NautilusAnalyticsAmplitudePluginSDK",
-            dependencies: [
-                .product(name: "AmplitudeSwift", package: "Amplitude-Swift"),
-                .product(name: "AmplitudeSessionReplay", package: "AmplitudeSessionReplay-iOS"),
-                .product(name: "AmplitudeSwiftSessionReplayPlugin", package: "AmplitudeSessionReplay-iOS"),
-                "_NautilusLoggingSDK",
-                "_NautilusAnalyticsSDK",
-            ],
-            resources: [
-                .process("PrivacyInfo.xcprivacy")
             ]
         ),
 
