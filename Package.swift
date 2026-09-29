@@ -628,7 +628,7 @@ let package = Package(
         ),
 
         // MARK: - StampUI
-        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging (+ Lottie)
         .binaryTarget(
             name: "_NautilusStampUISDK",
             url: xcframeworkURL("NautilusStampUISDK"),
@@ -647,6 +647,7 @@ let package = Package(
                 "_NautilusUISDK",
                 "_NautilusServerTimeSDK",
                 "_NautilusImagingSDK",
+                .product(name: "Lottie", package: "lottie-spm")
             ]
         ),
 
