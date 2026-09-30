@@ -85,7 +85,7 @@ let package = Package(
         ),
 
         // MARK: - Analytics
-        // 依存: Core, Container, Identify, Logging
+        // 依存: Core, Container, Identify, Logging (+ 推移: Config)
         .binaryTarget(
             name: "_NautilusAnalyticsSDK",
             url: xcframeworkURL("NautilusAnalyticsSDK"),
@@ -99,6 +99,7 @@ let package = Package(
                 "_NautilusContainerSDK",
                 "_NautilusIdentifySDK",
                 "_NautilusLoggingSDK",
+                "_NautilusConfigSDK",
             ]
         ),
 
@@ -163,7 +164,7 @@ let package = Package(
         ),
 
         // MARK: - CodeImageProviders
-        // 依存: Identify (+ ZXingObjC)
+        // 依存: Identify (+ ZXingObjC) (+ 推移: Config, Container, Core, Logging)
         .binaryTarget(
             name: "_NautilusCodeImageProvidersSDK",
             url: xcframeworkURL("NautilusCodeImageProvidersSDK"),
@@ -174,12 +175,16 @@ let package = Package(
             dependencies: [
                 "_NautilusCodeImageProvidersSDK",
                 "_NautilusIdentifySDK",
+                "_NautilusConfigSDK",
+                "_NautilusContainerSDK",
+                "_NautilusCoreSDK",
+                "_NautilusLoggingSDK",
                 .product(name: "ZXingObjC-Binaries", package: "ZXingObjC-Binaries")
             ]
         ),
 
         // MARK: - CodeReader
-        // 依存: Core
+        // 依存: Core (+ 推移: Container, Logging)
         .binaryTarget(
             name: "_NautilusCodeReaderSDK",
             url: xcframeworkURL("NautilusCodeReaderSDK"),
@@ -190,6 +195,8 @@ let package = Package(
             dependencies: [
                 "_NautilusCodeReaderSDK",
                 "_NautilusCoreSDK",
+                "_NautilusContainerSDK",
+                "_NautilusLoggingSDK",
             ]
         ),
 
@@ -565,7 +572,7 @@ let package = Package(
         ),
 
         // MARK: - StampRallyUI
-        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging (+ 推移: Identify, Logging)
         .binaryTarget(
             name: "_NautilusStampRallyUISDK",
             url: xcframeworkURL("NautilusStampRallyUISDK"),
@@ -584,6 +591,8 @@ let package = Package(
                 "_NautilusUISDK",
                 "_NautilusServerTimeSDK",
                 "_NautilusImagingSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
             ]
         ),
 
@@ -607,7 +616,7 @@ let package = Package(
         ),
 
         // MARK: - StampUI
-        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging (+ Lottie)
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging (+ Lottie) (+ 推移: Identify, Logging)
         .binaryTarget(
             name: "_NautilusStampUISDK",
             url: xcframeworkURL("NautilusStampUISDK"),
@@ -626,12 +635,14 @@ let package = Package(
                 "_NautilusUISDK",
                 "_NautilusServerTimeSDK",
                 "_NautilusImagingSDK",
+                "_NautilusIdentifySDK",
+                "_NautilusLoggingSDK",
                 .product(name: "Lottie", package: "lottie-spm")
             ]
         ),
 
         // MARK: - UI
-        // 依存: Core, Config, Analytics, Logging
+        // 依存: Core, Config, Analytics, Logging (+ 推移: Container, Identify)
         .binaryTarget(
             name: "_NautilusUISDK",
             url: xcframeworkURL("NautilusUISDK"),
@@ -645,6 +656,8 @@ let package = Package(
                 "_NautilusConfigSDK",
                 "_NautilusAnalyticsSDK",
                 "_NautilusLoggingSDK",
+                "_NautilusContainerSDK",
+                "_NautilusIdentifySDK",
             ]
         ),
 
