@@ -65,6 +65,10 @@ let package = Package(
         .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMinor(from: "4.6.0")),
     ],
     targets: [
+        // binaryTarget は依存を宣言できないため、各モジュールの依存は Bridge target に書く。
+        // 他の SDK は Bridge 経由で参照し（Bridge を持たないリーフは binaryTarget を直接参照）、
+        // 推移的な依存は SwiftPM にたどらせる。各 Bridge には直接 import しているモジュールを書く。
+        //
         // MARK: - HierarchicalMenu
         // 依存: Config, Container, Core, Identify, Logging
         .binaryTarget(
@@ -76,16 +80,16 @@ let package = Package(
             name: "_NautilusHierarchicalMenuSDKBridge",
             dependencies: [
                 "_NautilusHierarchicalMenuSDK",
-                "_NautilusConfigSDK",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusCoreSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
 
         // MARK: - Analytics
-        // 依存: Core, Container, Identify, Logging (+ 推移: Config)
+        // 依存: Core, Container, Identify, Logging
         .binaryTarget(
             name: "_NautilusAnalyticsSDK",
             url: xcframeworkURL("NautilusAnalyticsSDK"),
@@ -95,11 +99,10 @@ let package = Package(
             name: "_NautilusAnalyticsSDKBridge",
             dependencies: [
                 "_NautilusAnalyticsSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusConfigSDK",
             ]
         ),
 
@@ -114,14 +117,14 @@ let package = Package(
             name: "_NautilusBannerSDKBridge",
             dependencies: [
                 "_NautilusBannerSDK",
-                "_NautilusCoreSDK",
-                "_NautilusConfigSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusUISDK",
+                "_NautilusUISDKBridge",
             ]
         ),
 
@@ -136,11 +139,11 @@ let package = Package(
             name: "_NautilusCampaignSDKBridge",
             dependencies: [
                 "_NautilusCampaignSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
                 "_NautilusLoggingSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
             ]
         ),
 
@@ -155,16 +158,16 @@ let package = Package(
             name: "_NautilusCheckInSDKBridge",
             dependencies: [
                 "_NautilusCheckInSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
                 "_NautilusLoggingSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
             ]
         ),
 
         // MARK: - CodeImageProviders
-        // 依存: Identify (+ ZXingObjC) (+ 推移: Config, Container, Core, Logging)
+        // 依存: Identify (+ ZXingObjC)
         .binaryTarget(
             name: "_NautilusCodeImageProvidersSDK",
             url: xcframeworkURL("NautilusCodeImageProvidersSDK"),
@@ -174,17 +177,13 @@ let package = Package(
             name: "_NautilusCodeImageProvidersSDKBridge",
             dependencies: [
                 "_NautilusCodeImageProvidersSDK",
-                "_NautilusIdentifySDK",
-                "_NautilusConfigSDK",
-                "_NautilusContainerSDK",
-                "_NautilusCoreSDK",
-                "_NautilusLoggingSDK",
+                "_NautilusIdentifySDKBridge",
                 .product(name: "ZXingObjC-Binaries", package: "ZXingObjC-Binaries")
             ]
         ),
 
         // MARK: - CodeReader
-        // 依存: Core (+ 推移: Container, Logging)
+        // 依存: Core
         .binaryTarget(
             name: "_NautilusCodeReaderSDK",
             url: xcframeworkURL("NautilusCodeReaderSDK"),
@@ -194,9 +193,7 @@ let package = Package(
             name: "_NautilusCodeReaderSDKBridge",
             dependencies: [
                 "_NautilusCodeReaderSDK",
-                "_NautilusCoreSDK",
-                "_NautilusContainerSDK",
-                "_NautilusLoggingSDK",
+                "_NautilusCoreSDKBridge",
             ]
         ),
 
@@ -211,11 +208,11 @@ let package = Package(
             name: "_NautilusCollectionCardSDKBridge",
             dependencies: [
                 "_NautilusCollectionCardSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
                 "_NautilusLoggingSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
             ]
         ),
 
@@ -230,7 +227,7 @@ let package = Package(
             name: "_NautilusConfigSDKBridge",
             dependencies: [
                 "_NautilusConfigSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
                 "_NautilusLoggingSDK",
             ]
@@ -254,14 +251,14 @@ let package = Package(
             name: "_NautilusContentSDKBridge",
             dependencies: [
                 "_NautilusContentSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusUISDK",
+                "_NautilusUISDKBridge",
             ]
         ),
 
@@ -292,15 +289,15 @@ let package = Package(
             name: "_NautilusCouponSDKBridge",
             dependencies: [
                 "_NautilusCouponSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusUISDK",
-                "_NautilusServerTimeSDK",
+                "_NautilusUISDKBridge",
+                "_NautilusServerTimeSDKBridge",
             ]
         ),
 
@@ -315,10 +312,10 @@ let package = Package(
             name: "_NautilusGeoUtilSDKBridge",
             dependencies: [
                 "_NautilusGeoUtilSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
@@ -334,9 +331,9 @@ let package = Package(
             name: "_NautilusIdentifySDKBridge",
             dependencies: [
                 "_NautilusIdentifySDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
+                "_NautilusConfigSDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
@@ -359,14 +356,14 @@ let package = Package(
             name: "_NautilusInAppMessageSDKBridge",
             dependencies: [
                 "_NautilusInAppMessageSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusImagingSDK",
                 "_NautilusLoggingSDK",
-                "_NautilusUISDK",
+                "_NautilusUISDKBridge",
             ]
         ),
 
@@ -381,13 +378,13 @@ let package = Package(
             name: "_NautilusIntroSDKBridge",
             dependencies: [
                 "_NautilusIntroSDK",
-                "_NautilusCoreSDK",
-                "_NautilusConfigSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusIdentifySDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusIdentifySDKBridge",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusUISDK",
+                "_NautilusUISDKBridge",
             ]
         ),
 
@@ -409,13 +406,13 @@ let package = Package(
             name: "_NautilusLotterySDKBridge",
             dependencies: [
                 "_NautilusLotterySDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
                 "_NautilusImagingSDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusAnalyticsSDKBridge",
             ]
         ),
 
@@ -430,16 +427,16 @@ let package = Package(
             name: "_NautilusLotteryUISDKBridge",
             dependencies: [
                 "_NautilusLotteryUISDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
                 "_NautilusImagingSDK",
-                "_NautilusAnalyticsSDK",
-                "_NautilusUISDK",
-                "_NautilusLotterySDK",
-                "_NautilusServerTimeSDK",
+                "_NautilusAnalyticsSDKBridge",
+                "_NautilusUISDKBridge",
+                "_NautilusLotterySDKBridge",
+                "_NautilusServerTimeSDKBridge",
                 .product(name: "Lottie", package: "lottie-spm")
             ]
         ),
@@ -455,10 +452,10 @@ let package = Package(
             name: "_NautilusMaintenanceSDKBridge",
             dependencies: [
                 "_NautilusMaintenanceSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
                 "_NautilusLoggingSDK",
-                "_NautilusConfigSDK",
+                "_NautilusConfigSDKBridge",
             ]
         ),
 
@@ -473,10 +470,10 @@ let package = Package(
             name: "_NautilusNotificationSDKBridge",
             dependencies: [
                 "_NautilusNotificationSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
@@ -499,14 +496,14 @@ let package = Package(
             name: "_NautilusNotificationUISDKBridge",
             dependencies: [
                 "_NautilusNotificationUISDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
-                "_NautilusAnalyticsSDK",
-                "_NautilusNotificationSDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
+                "_NautilusAnalyticsSDKBridge",
+                "_NautilusNotificationSDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusUISDK",
+                "_NautilusUISDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
@@ -522,11 +519,11 @@ let package = Package(
             name: "_NautilusPointSDKBridge",
             dependencies: [
                 "_NautilusPointSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
                 "_NautilusLoggingSDK",
-                "_NautilusConfigSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusConfigSDKBridge",
+                "_NautilusIdentifySDKBridge",
             ]
         ),
 
@@ -541,9 +538,9 @@ let package = Package(
             name: "_NautilusServerTimeSDKBridge",
             dependencies: [
                 "_NautilusServerTimeSDK",
-                "_NautilusCoreSDK",
+                "_NautilusCoreSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusConfigSDK",
+                "_NautilusConfigSDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
@@ -559,20 +556,20 @@ let package = Package(
             name: "_NautilusShopSDKBridge",
             dependencies: [
                 "_NautilusShopSDK",
-                "_NautilusCoreSDK",
-                "_NautilusConfigSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusUISDK",
-                "_NautilusGeoUtilSDK",
+                "_NautilusUISDKBridge",
+                "_NautilusGeoUtilSDKBridge",
             ]
         ),
 
         // MARK: - StampRallyUI
-        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging (+ 推移: Identify, Logging)
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging, Logging
         .binaryTarget(
             name: "_NautilusStampRallyUISDK",
             url: xcframeworkURL("NautilusStampRallyUISDK"),
@@ -582,16 +579,15 @@ let package = Package(
             name: "_NautilusStampRallyUISDKBridge",
             dependencies: [
                 "_NautilusStampRallyUISDK",
-                "_NautilusAnalyticsSDK",
-                "_NautilusConfigSDK",
+                "_NautilusAnalyticsSDKBridge",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusCoreSDK",
-                "_NautilusStampSDK",
-                "_NautilusCodeReaderSDK",
-                "_NautilusUISDK",
-                "_NautilusServerTimeSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusStampSDKBridge",
+                "_NautilusCodeReaderSDKBridge",
+                "_NautilusUISDKBridge",
+                "_NautilusServerTimeSDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusIdentifySDK",
                 "_NautilusLoggingSDK",
             ]
         ),
@@ -607,16 +603,16 @@ let package = Package(
             name: "_NautilusStampSDKBridge",
             dependencies: [
                 "_NautilusStampSDK",
-                "_NautilusConfigSDK",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusCoreSDK",
-                "_NautilusIdentifySDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusIdentifySDKBridge",
                 "_NautilusLoggingSDK",
             ]
         ),
 
         // MARK: - StampUI
-        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging (+ Lottie) (+ 推移: Identify, Logging)
+        // 依存: Analytics, Config, Container, Core, Stamp, CodeReader, UI, ServerTime, Imaging, Logging (+ Lottie)
         .binaryTarget(
             name: "_NautilusStampUISDK",
             url: xcframeworkURL("NautilusStampUISDK"),
@@ -626,23 +622,22 @@ let package = Package(
             name: "_NautilusStampUISDKBridge",
             dependencies: [
                 "_NautilusStampUISDK",
-                "_NautilusAnalyticsSDK",
-                "_NautilusConfigSDK",
+                "_NautilusAnalyticsSDKBridge",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusCoreSDK",
-                "_NautilusStampSDK",
-                "_NautilusCodeReaderSDK",
-                "_NautilusUISDK",
-                "_NautilusServerTimeSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusStampSDKBridge",
+                "_NautilusCodeReaderSDKBridge",
+                "_NautilusUISDKBridge",
+                "_NautilusServerTimeSDKBridge",
                 "_NautilusImagingSDK",
-                "_NautilusIdentifySDK",
                 "_NautilusLoggingSDK",
                 .product(name: "Lottie", package: "lottie-spm")
             ]
         ),
 
         // MARK: - UI
-        // 依存: Core, Config, Analytics, Logging (+ 推移: Container, Identify)
+        // 依存: Core, Config, Analytics, Logging, Container
         .binaryTarget(
             name: "_NautilusUISDK",
             url: xcframeworkURL("NautilusUISDK"),
@@ -652,12 +647,11 @@ let package = Package(
             name: "_NautilusUISDKBridge",
             dependencies: [
                 "_NautilusUISDK",
-                "_NautilusCoreSDK",
-                "_NautilusConfigSDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusConfigSDKBridge",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
                 "_NautilusContainerSDK",
-                "_NautilusIdentifySDK",
             ]
         ),
 
@@ -672,13 +666,13 @@ let package = Package(
             name: "_NautilusUserInfoSDKBridge",
             dependencies: [
                 "_NautilusUserInfoSDK",
-                "_NautilusCoreSDK",
-                "_NautilusConfigSDK",
+                "_NautilusCoreSDKBridge",
+                "_NautilusConfigSDKBridge",
                 "_NautilusContainerSDK",
-                "_NautilusIdentifySDK",
-                "_NautilusAnalyticsSDK",
+                "_NautilusIdentifySDKBridge",
+                "_NautilusAnalyticsSDKBridge",
                 "_NautilusLoggingSDK",
-                "_NautilusGeoUtilSDK",
+                "_NautilusGeoUtilSDKBridge",
             ]
         ),
     ]
