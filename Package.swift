@@ -9,7 +9,7 @@ import PackageDescription
 //
 // `sdkVersion` と各 binaryTarget の `checksum` は、SDK 側のリリースワークフローで自動更新される。
 
-let sdkVersion = "1.28.0-alpha1"
+let sdkVersion = "1.28.0"
 
 func xcframeworkURL(_ module: String) -> String {
     "https://github.com/Locationvalue/ma2-ios-sdk-spm/releases/download/\(sdkVersion)/\(module).xcframework.zip"
@@ -74,7 +74,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusHierarchicalMenuSDK",
             url: xcframeworkURL("NautilusHierarchicalMenuSDK"),
-            checksum: "a4d3f4bccffcd62abced1c9a9a5c2bd944ce5b2202d87974979d1bd567973ef5"
+            checksum: "f81a2ac82ef427147cbdaecac22add52e8bd855d17202dfd933bf1eddd26d56f"
         ),
         .target(
             name: "_NautilusHierarchicalMenuSDKBridge",
@@ -93,7 +93,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusAnalyticsSDK",
             url: xcframeworkURL("NautilusAnalyticsSDK"),
-            checksum: "67a9172ecf932076a3207d96a1ac90dbfeac3867272639a47fe6565d22cd8a96"
+            checksum: "af1f9b5d1fbb2edafe1afd8555cd4ee29e54b939a2530cfe4ff4c9476dab022e"
         ),
         .target(
             name: "_NautilusAnalyticsSDKBridge",
@@ -111,7 +111,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusBannerSDK",
             url: xcframeworkURL("NautilusBannerSDK"),
-            checksum: "ab8807b158fd4c63e7bb9f5e649cdba97661c932d1b4e566fbe9f5d66b4e09ba"
+            checksum: "d1b2b79bc1c6dc0e5dd439263659a9c7ca7e849de2d244ad1aba277b5af9832b"
         ),
         .target(
             name: "_NautilusBannerSDKBridge",
@@ -133,7 +133,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCampaignSDK",
             url: xcframeworkURL("NautilusCampaignSDK"),
-            checksum: "dc5433ab6f9c1e2eccc5c6af7974b6862a67b98f785bbb17d7b3a5149138adbf"
+            checksum: "d229add4bc47f53574babd161a632251580f98dd3c8abf08b1ec87e9b3079244"
         ),
         .target(
             name: "_NautilusCampaignSDKBridge",
@@ -152,7 +152,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCheckInSDK",
             url: xcframeworkURL("NautilusCheckInSDK"),
-            checksum: "07d0414ebdc6cd765f6fc2ada27d4c8c4b4462d3b3e19d46d4cc253e11abdbda"
+            checksum: "fe551a9d198b9a00b16f9f3203935920140142a6657e3df895f51bc32e60cfdf"
         ),
         .target(
             name: "_NautilusCheckInSDKBridge",
@@ -171,7 +171,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCodeImageProvidersSDK",
             url: xcframeworkURL("NautilusCodeImageProvidersSDK"),
-            checksum: "b9d4199cb8e1417cad629cf1c8e5812228793d2fd0ff2ed1fb0d2da0ffc238a2"
+            checksum: "7f06e25653bad79420c86e29431d2e187655373b7343047d5bf6f689ef91eacb"
         ),
         .target(
             name: "_NautilusCodeImageProvidersSDKBridge",
@@ -187,7 +187,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCodeReaderSDK",
             url: xcframeworkURL("NautilusCodeReaderSDK"),
-            checksum: "6ab11118427b011d748890150679f9cc37da6c9fb381ced52ff208e3a75b8ea2"
+            checksum: "a5e8e245905cb34a7eb55d55a840ee56cabd80f3f5193b28c8df4256eedf0720"
         ),
         .target(
             name: "_NautilusCodeReaderSDKBridge",
@@ -202,7 +202,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCollectionCardSDK",
             url: xcframeworkURL("NautilusCollectionCardSDK"),
-            checksum: "c246e783c035592b03b3cfa91497d46c9558f92475fc67de1dbc4a849bae1a7e"
+            checksum: "20786c8dc0f8735f7b4edd26c3614819d3fa93c384898eeda466c66cd6ef2115"
         ),
         .target(
             name: "_NautilusCollectionCardSDKBridge",
@@ -221,7 +221,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusConfigSDK",
             url: xcframeworkURL("NautilusConfigSDK"),
-            checksum: "d145e2d7f65e7f8f397ec9b92ebccf295e95ea5ed48162b8328ea8cf830ae4d8"
+            checksum: "24d54d00b43157b9c344e3fa26a757dec9c44480852874f4ad3c9acfeb9d93e7"
         ),
         .target(
             name: "_NautilusConfigSDKBridge",
@@ -237,7 +237,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusContainerSDK",
             url: xcframeworkURL("NautilusContainerSDK"),
-            checksum: "d0674cad4fb59fadb17e06fe55cc04b4201e012a617bee9b262ab76b4b5d889a"
+            checksum: "79d9848f6c7f4061a1304aee03e4fd6a78a293b5e157783d1cba1be7bd6fd4ba"
         ),
 
         // MARK: - Content
@@ -245,7 +245,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusContentSDK",
             url: xcframeworkURL("NautilusContentSDK"),
-            checksum: "84b2cd15e45d69b290d0d99cff64bfbe13745402583ebe20dc08a5b2ebf0d47d"
+            checksum: "cf6d682539a4bb7c6232b4366fbd004d4f04568f887256066c9dd32be842ba25"
         ),
         .target(
             name: "_NautilusContentSDKBridge",
@@ -267,7 +267,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCoreSDK",
             url: xcframeworkURL("NautilusCoreSDK"),
-            checksum: "d2e9d0e8f576f5128ac6595d27d0dc28f095ab6e83ed69a44a40bca956850fe7"
+            checksum: "eb395cab5a10da49992641de451c1c0256f5a283caedcc85e557a4e00f1f4399"
         ),
         .target(
             name: "_NautilusCoreSDKBridge",
@@ -283,7 +283,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusCouponSDK",
             url: xcframeworkURL("NautilusCouponSDK"),
-            checksum: "6fd3f5aeab96df0c625779e78d80be582a8732f7a295d634e839adf9f3264f3f"
+            checksum: "13b0ef9cf1eeb1d1c7f8933a7c5e0582119c424896baee4105abfd3ce4760aec"
         ),
         .target(
             name: "_NautilusCouponSDKBridge",
@@ -306,7 +306,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusGeoUtilSDK",
             url: xcframeworkURL("NautilusGeoUtilSDK"),
-            checksum: "ee07d53d90954ff87b2a5d88003be47fbb481cb466463e9e6b1715378f081c38"
+            checksum: "df8ffc71cb87b4b95bab5f8ddf8c78d664e98532220190c5640878de83058624"
         ),
         .target(
             name: "_NautilusGeoUtilSDKBridge",
@@ -325,7 +325,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusIdentifySDK",
             url: xcframeworkURL("NautilusIdentifySDK"),
-            checksum: "45660d2e541c8610027e4a3c17f1175e1efe032bf789a1b79878a8b35dca0bc5"
+            checksum: "a1c3c34fa6ec60828f86f4296588cf16b746fecc528c2c55728397ef1f107d63"
         ),
         .target(
             name: "_NautilusIdentifySDKBridge",
@@ -342,7 +342,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusImagingSDK",
             url: xcframeworkURL("NautilusImagingSDK"),
-            checksum: "96720172a5d664d7bf74e30436f0591433a3ddc4e0382e47c24f99f4fc1b3e1f"
+            checksum: "9286311071b9e0403fac99a0e6fbe2e0e7b6ae097bd89c108f4586f588a1ae40"
         ),
 
         // MARK: - InAppMessage
@@ -350,7 +350,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusInAppMessageSDK",
             url: xcframeworkURL("NautilusInAppMessageSDK"),
-            checksum: "8ca0a9cf7d8ab38649695179a58e41e3531aed4c2e04de56069a316723a50a86"
+            checksum: "1b6a17a623e3de516145d74b648a1c0e545b688778ac9b70dca308d207b656c1"
         ),
         .target(
             name: "_NautilusInAppMessageSDKBridge",
@@ -372,7 +372,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusIntroSDK",
             url: xcframeworkURL("NautilusIntroSDK"),
-            checksum: "6ef889bfe757d56c6238920c7dc2c36c6b63b9f8fe85899209a8b6bdcac4c06c"
+            checksum: "bd0dcac9769bb61f3c14afa75194e95dc088436b37380562aa3fafcc587aa7f6"
         ),
         .target(
             name: "_NautilusIntroSDKBridge",
@@ -392,7 +392,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusLoggingSDK",
             url: xcframeworkURL("NautilusLoggingSDK"),
-            checksum: "3460120928b3e132c56734c803f96c1138aefba34d7ea2d9f78cd53f2d813828"
+            checksum: "832bd5bdad00ddea139e9f29234c36c038b3b493c0a8cf3b2da7a8ff16787ff9"
         ),
 
         // MARK: - Lottery
@@ -400,7 +400,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusLotterySDK",
             url: xcframeworkURL("NautilusLotterySDK"),
-            checksum: "4b204ea9bab4a3d8011257c8339608ffdd079018d245282acc452d11fe355d9f"
+            checksum: "d65161a459db73058f4d4ee07d9aa0f48b590da98aee26458bf29ab5af6122f6"
         ),
         .target(
             name: "_NautilusLotterySDKBridge",
@@ -421,7 +421,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusLotteryUISDK",
             url: xcframeworkURL("NautilusLotteryUISDK"),
-            checksum: "271b9dc3d9aac8363a6c11584d839ed89019d9dcc99ad30544cbb8ff2f60060b"
+            checksum: "99afded63e2f6bcbb54e537b38b9f7c957efe442b8919da74608b4e0c917cc84"
         ),
         .target(
             name: "_NautilusLotteryUISDKBridge",
@@ -446,7 +446,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusMaintenanceSDK",
             url: xcframeworkURL("NautilusMaintenanceSDK"),
-            checksum: "bf65285b26a026549b713386a465b158b3e69afca7a1df37c72038a9541d9e31"
+            checksum: "10e1904a8e023ab323ee2f1561d5b0eb624f65e6a24fbcb02db4813db4117b54"
         ),
         .target(
             name: "_NautilusMaintenanceSDKBridge",
@@ -464,7 +464,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusNotificationSDK",
             url: xcframeworkURL("NautilusNotificationSDK"),
-            checksum: "ec7056f40bb712d94ef88071b6376971a9a3898f8fe7862c279840b1d03d09a9"
+            checksum: "5c5b7b3a9b96ce01402884144fc1f969332616fd450e51541035d9f653e838a3"
         ),
         .target(
             name: "_NautilusNotificationSDKBridge",
@@ -482,7 +482,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusNotificationServiceSDK",
             url: xcframeworkURL("NautilusNotificationServiceSDK"),
-            checksum: "a17f8d2999140c032e26c1cb239eaa61de9679527e6c717798c0e00bc3f765f7"
+            checksum: "4b32a7294db8f9f0eb1399816954c69e1772efaff715cc22da2a64b3bb5dd7bd"
         ),
 
         // MARK: - NotificationUI
@@ -490,7 +490,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusNotificationUISDK",
             url: xcframeworkURL("NautilusNotificationUISDK"),
-            checksum: "750e905fb683e8325ab206b5effa586c4cd33a7fe081938ff83463f50b155cd6"
+            checksum: "cd57b48321e3a1fa582e2868d1db20538875e12eb8d4f2f8b2cb4d8bf77cef15"
         ),
         .target(
             name: "_NautilusNotificationUISDKBridge",
@@ -513,7 +513,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusPointSDK",
             url: xcframeworkURL("NautilusPointSDK"),
-            checksum: "06165220721cde6d615ec06c9c0808e79362232ea6d2750f7ac8ee01a4347972"
+            checksum: "8b0b92dd39549455332c695028a449a5daf2f520c32f7e63352a50c9f1bd369f"
         ),
         .target(
             name: "_NautilusPointSDKBridge",
@@ -532,7 +532,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusServerTimeSDK",
             url: xcframeworkURL("NautilusServerTimeSDK"),
-            checksum: "9fac5564f655d98c1943e7786e32aa8f6736bf5a4153a548096291e1291e42e6"
+            checksum: "dff18245207504cadf1565db0d06e3d83af221a245ad2c1e2c06b6df3a27df01"
         ),
         .target(
             name: "_NautilusServerTimeSDKBridge",
@@ -550,7 +550,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusShopSDK",
             url: xcframeworkURL("NautilusShopSDK"),
-            checksum: "f4a39814b08c79f449d25a88d0be2a3cc88fab777b9b9d24ee8af8587995cdb3"
+            checksum: "bf0be40fc9c41a684dd00e27b59f91ce2f8de88394653b89ad2bc3e9e617ae4f"
         ),
         .target(
             name: "_NautilusShopSDKBridge",
@@ -573,7 +573,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusStampRallyUISDK",
             url: xcframeworkURL("NautilusStampRallyUISDK"),
-            checksum: "e87d0794b315d89d9a0f4c8427ebbc244e670794f5a62529dd7d2623da7bb22a"
+            checksum: "7d75da7aaa909ced28758da5924024171dc5c2cca92484b2e2f91467f5eab0d6"
         ),
         .target(
             name: "_NautilusStampRallyUISDKBridge",
@@ -597,7 +597,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusStampSDK",
             url: xcframeworkURL("NautilusStampSDK"),
-            checksum: "57f2afa27eebec352a167852103262398b4c600c4698d6cb83958944afc8bd82"
+            checksum: "2e3b8e5d41736678f670fb06ce8e629e3491df93f5e439c16882c78b3dc73a28"
         ),
         .target(
             name: "_NautilusStampSDKBridge",
@@ -616,7 +616,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusStampUISDK",
             url: xcframeworkURL("NautilusStampUISDK"),
-            checksum: "a1f96f525e118be98416e0720dfbf48f402b490f41ff156ffac53022d56bc421"
+            checksum: "7bc43cdeaf31306f8420fdeac4e311c11f5109ed88c6539dcdcce179ae3bfc31"
         ),
         .target(
             name: "_NautilusStampUISDKBridge",
@@ -641,7 +641,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusUISDK",
             url: xcframeworkURL("NautilusUISDK"),
-            checksum: "257f0bc17b9b0777e0431721648dc7fa824e21dcd8817b567a045892561cb533"
+            checksum: "2e01c29671cfc53c122014a3fad64b36a29d31e1bcf12fe071a760accef3d548"
         ),
         .target(
             name: "_NautilusUISDKBridge",
@@ -660,7 +660,7 @@ let package = Package(
         .binaryTarget(
             name: "_NautilusUserInfoSDK",
             url: xcframeworkURL("NautilusUserInfoSDK"),
-            checksum: "e90d26360689eda840a014f730816ddf08c84149f1c73d95c13880489b429d18"
+            checksum: "86a5cc6328e4ffd9ba557607838a9ca6b0be392fae133fea6ee1a783bb5ff5a9"
         ),
         .target(
             name: "_NautilusUserInfoSDKBridge",
